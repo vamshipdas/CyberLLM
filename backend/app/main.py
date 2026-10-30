@@ -10,6 +10,8 @@ from app.api.sop_routes import router as sop_router
 from app.api.ticket_routes import router as ticket_router
 from app.api.alert_routes import router as alert_router
 from app.routers.threat_map import router as threat_map_router, settings_router
+from app.routers.notifications import router as notification_router
+
 
 from app.config import settings
 from app.db import SessionLocal, engine, init_db
@@ -81,6 +83,7 @@ app.include_router(log_router, prefix=settings.API_V1_STR)
 app.include_router(threat_map_router, prefix=settings.API_V1_STR)
 app.include_router(settings_router, prefix=settings.API_V1_STR)
 app.include_router(alert_router, prefix=settings.API_V1_STR)
+app.include_router(notification_router, prefix=settings.API_V1_STR)
 
 app.include_router(log_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
@@ -90,6 +93,8 @@ app.include_router(sop_router, prefix="/api")
 app.include_router(threat_map_router, prefix="/api")
 app.include_router(settings_router, prefix="/api")
 app.include_router(alert_router, prefix="/api")
+app.include_router(notification_router, prefix="/api")
+
 
 
 

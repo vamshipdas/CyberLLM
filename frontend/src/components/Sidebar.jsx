@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Clock, Plus, MoreVertical, Archive, Trash2, EyeOff } from 'lucide-react';
+import { Clock, Plus, MoreVertical, Archive, Trash2, EyeOff, Bell } from 'lucide-react';
 
 export default function Sidebar({ 
   chats = [], 
@@ -10,7 +10,9 @@ export default function Sidebar({
   onDelete,
   showArchived = false,
   onToggleArchived,
+  onOpenNotifications,
 }) {
+
   const [openMenuId, setOpenMenuId] = useState(null); // session id whose menu is open
 
   const activeChats = chats.filter((c) => !c.archived);
@@ -203,7 +205,21 @@ export default function Sidebar({
         </div>
       )}
 
-      <div style={{ padding: '10px 14px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ padding: '10px 14px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <button
+          type="button"
+          onClick={onOpenNotifications}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '7px 12px', border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '8px', background: 'rgba(255, 255, 255, 0.03)', color: 'var(--text-muted)',
+            cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600
+          }}
+        >
+          <Bell size={14} color="#38bdf8" />
+          <span>Notification Settings</span>
+        </button>
+
         <button
           type="button"
           onClick={onNewChat}
@@ -218,6 +234,7 @@ export default function Sidebar({
           <span className="sidebar-action-label">New Chat</span>
         </button>
       </div>
+
     </aside>
   );
 }

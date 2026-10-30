@@ -1,7 +1,8 @@
 import React from 'react';
-import { LogOut, ShieldAlert, MessageSquare, Terminal } from 'lucide-react';
+import { LogOut, ShieldAlert, MessageSquare, Terminal, Bell } from 'lucide-react';
 
-export default function Header({ user, onLogout, currentView = 'workspace', onViewChange }) {
+export default function Header({ user, onLogout, currentView = 'workspace', onViewChange, onOpenNotifications }) {
+
   return (
     <header className="app-header" style={{
       background: 'rgba(10, 15, 26, 0.92)',
@@ -64,6 +65,30 @@ export default function Header({ user, onLogout, currentView = 'workspace', onVi
 
       {/* User profile & signout */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <button
+          className="header-notif-btn"
+          type="button"
+          onClick={onOpenNotifications}
+          style={{
+            background: 'rgba(56, 189, 248, 0.1)',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
+            color: '#38bdf8',
+            borderRadius: '8px',
+            padding: '6px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+          title="Alert Notifications & Settings"
+        >
+          <Bell size={14} />
+          <span>Alerts &amp; SMTP</span>
+        </button>
+
         <div className="user-role-badge">
           <span className="user-dot"></span>
           <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0' }}>{user?.username}</span>

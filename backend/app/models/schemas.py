@@ -96,6 +96,21 @@ class TicketStatusUpdate(BaseModel):
     status: Optional[Literal["in_progress", "resolved"]]
 
 
+class TicketCreate(BaseModel):
+    title: str
+    threat_type: str = "general"
+    severity: str = "medium"
+    status: Optional[str] = "open"
+    source_ip: Optional[str] = None
+    target_host: Optional[str] = None
+    description: str = ""
+
+
+class TicketSeverityUpdate(BaseModel):
+    severity: str
+
+
+
 # --- SOPs ----------------------------------------------------------------
 
 class SOPDocumentOut(BaseModel):
@@ -296,5 +311,45 @@ class HomeLocationUpdate(BaseModel):
     lat: float
     lon: float
     label: Optional[str] = None
+
+
+class NotificationLogOut(BaseModel):
+    id: str
+    alert_id: str
+    alert_type: str
+    alert_title: str
+    severity: str
+    recipients: str
+    status: str
+    error_message: Optional[str] = None
+    retry_count: int = 0
+    grouped_count: int = 1
+    created_at: datetime
+
+
+class NotificationSettingsOut(BaseModel):
+    enabled: bool
+    min_severity: str
+    recipients: List[str]
+    cooldown_seconds: int
+    smtp_configured: bool
+    smtp_host: str
+    smtp_port: int
+    sender_email: str
+
+
+class NotificationSettingsUpdate(BaseModel):
+    enabled: Optional[bool] = None
+    min_severity: Optional[str] = None
+    recipients: Optional[List[str]] = None
+    cooldown_seconds: Optional[int] = None
+
+
+class TestNotificationResponse(BaseModel):
+    status: str
+    message: str
+    recipients: List[str]
+    log_id: Optional[str] = None
+
 
 

@@ -6,6 +6,7 @@ import TicketsPanel from './components/TicketsPanel';
 import LoginPage from './components/LoginPage';
 import LogAnalysis from './components/LogAnalysis/LogAnalysis';
 import AlertDetailDrawer from './components/AlertDetail/AlertDetailDrawer';
+import NotificationSettingsModal from './components/NotificationSettingsModal';
 import { fetchMe, listChats, newChat, archiveChat, deleteChat, logout, isLoggedIn, AuthError, AUTH_EXPIRED_EVENT } from './api';
 
 export default function App() {
@@ -18,7 +19,30 @@ export default function App() {
   const [chatInput, setChatInput] = useState('');
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [focusedOrigin, setFocusedOrigin] = useState(null);
+  const [isNotifModalOpen, setIsNotifModalOpen] = useState(false);
+  const [toast, setToast] = useState(null);
   const cancelledRef = useRef(false);
+
+  const showToast = (type, message) => {
+    setToast({ type, message, id: Date.now() });
+  };
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  // Deep-link handler: ?alert=<id> automatically opens the AlertDetailDrawer
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const alertId = params.get('alert');
+    if (alertId) {
+      const alertType = alertId.startsWith('TKT-') ? 'ticket' : (alertId.startsWith('FND-') ? 'finding' : 'ticket');
+      setSelectedAlert({ id: alertId, type: alertType });
+    }
+  }, []);
+
 
   function resetSession() {
     setUser(null);
@@ -176,6 +200,7 @@ export default function App() {
         onLogout={handleLogout}
         currentView={currentView}
         onViewChange={setCurrentView}
+        onOpenNotifications={() => setIsNotifModalOpen(true)}
       />
 
       {currentView === 'logs' ? (
@@ -184,6 +209,7 @@ export default function App() {
             onAskCyberLLM={handleAskCyberLLM}
             onSelectAlert={handleSelectAlert}
             focusedOrigin={focusedOrigin}
+            showToast={showToast}
           />
         </main>
       ) : (
@@ -197,6 +223,7 @@ export default function App() {
             onDelete={handleDelete}
             showArchived={showArchived}
             onToggleArchived={setShowArchived}
+            onOpenNotifications={() => setIsNotifModalOpen(true)}
           />
 
           {activeChatId ? (
@@ -222,6 +249,7 @@ export default function App() {
           <TicketsPanel
             onUseTicket={handleTicketPrompt}
             onSelectAlert={handleSelectAlert}
+            showToast={showToast}
           />
         </main>
       )}
@@ -234,6 +262,41 @@ export default function App() {
         onOpenInWorkspace={handleTicketPrompt}
         onFocusGlobe={handleFocusGlobe}
       />
+
+      {/* Notification Settings & Logs Modal */}
+      <NotificationSettingsModal
+        isOpen={isNotifModalOpen}
+        onClose={() => setIsNotifModalOpen(false)}
+        user={user}
+        showToast={showToast}
+      />
+
+      {/* Toast Notification Banner */}
+      {toast && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            background: toast.type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)',
+            color: '#ffffff',
+            padding: '10px 18px',
+            borderRadius: '8px',
+            fontSize: '0.84rem',
+            fontWeight: 600,
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            animation: 'fadeIn 0.2s ease-in-out',
+          }}
+        >
+          <span>{toast.type === 'error' ? '⚠️' : '✅'}</span>
+          <span>{toast.message}</span>
+        </div>
+      )}
     </div>
   );
+
 }

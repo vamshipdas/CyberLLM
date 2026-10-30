@@ -505,7 +505,16 @@ def create_ticket_from_finding(
             fnd.ticket_id = ticket_id
 
     db.commit()
+
+    if severity.lower() == "critical":
+        try:
+            from app.services.notifier import notifier
+            notifier.send_critical_alert_background(ticket)
+        except Exception as ex:
+            print(f"[WARN] Failed to trigger notification for critical ticket {ticket_id}: {ex}")
+
     return {"status": "ok", "ticket_id": ticket_id}
+
 
 
 # --- 8. Log Explainer Chatbot --------------------------------------------

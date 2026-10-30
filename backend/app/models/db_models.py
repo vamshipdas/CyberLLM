@@ -308,3 +308,24 @@ class SystemSetting(Base):
         DateTime(timezone=True), default=utcnow, onupdate=utcnow, nullable=False
     )
 
+
+class NotificationLog(Base):
+    __tablename__ = "notification_logs"
+
+    id: Mapped[str] = mapped_column(
+        String, primary_key=True, default=lambda: f"NOTIF-{uuid.uuid4().hex[:12]}"
+    )
+    alert_id: Mapped[str] = mapped_column(String, index=True, nullable=False)
+    alert_type: Mapped[str] = mapped_column(String, default="ticket", nullable=False)
+    alert_title: Mapped[str] = mapped_column(String, nullable=False)
+    severity: Mapped[str] = mapped_column(String, default="critical", nullable=False)
+    recipients: Mapped[str] = mapped_column(String, nullable=False)
+    status: Mapped[str] = mapped_column(String, nullable=False)  # "sent" | "failed" | "skipped"
+    error_message: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    retry_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    grouped_count: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, nullable=False
+    )
+
+

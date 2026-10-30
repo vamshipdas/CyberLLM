@@ -17,12 +17,14 @@ _KNOWLEDGE_PATH = _BASE_DIR / "event_knowledge.yaml"
 
 # Regex patterns for secret redaction
 _SECRET_PATTERNS = [
-    (re.compile(r"(?i)(password|passwd|pwd|secret|authorization)\s*[:=]\s*['\"]?([^\s,;'\"]+)['\"]?"), r"\1=[REDACTED]"),
-    (re.compile(r"(?i)bearer\s+[A-Za-z0-9_\-\.]{15,}"), "Bearer [REDACTED]"),
-    (re.compile(r"(?i)(api[_-]?key|access[_-]?token|auth[_-]?token)\s*[:=]\s*['\"]?([^\s,;'\"]+)['\"]?"), r"\1=[REDACTED]"),
     (re.compile(r"-----BEGIN [A-Z ]+ PRIVATE KEY-----.*?-----END [A-Z ]+ PRIVATE KEY-----", re.DOTALL), "[REDACTED PRIVATE KEY]"),
+    (re.compile(r"(?i)bearer\s+[A-Za-z0-9_\-\.]{15,}"), "Bearer [REDACTED]"),
+    (re.compile(r"eyJ[a-zA-Z0-9_\-]{10,}\.[a-zA-Z0-9_\-]{10,}\.[a-zA-Z0-9_\-]+"), "[REDACTED_JWT]"),
+    (re.compile(r"(?i)(password|passwd|pwd|secret|auth(?:orization)?)\s*[:=]\s*['\"]?([^\s,;'\"]+)['\"]?"), r"\1=[REDACTED]"),
+    (re.compile(r"(?i)(api[_-]?key|access[_-]?token|auth[_-]?token)\s*[:=]\s*['\"]?([^\s,;'\"]+)['\"]?"), r"\1=[REDACTED]"),
     (re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"), "[EMAIL_REDACTED]"),
 ]
+
 
 
 def redact_secrets(text: str) -> str:

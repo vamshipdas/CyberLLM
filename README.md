@@ -129,7 +129,27 @@ DATABASE_URL=
 # Seed demo account passwords (change before any shared deployment)
 SEED_ADMIN_PASSWORD=adminpassword123
 SEED_ANALYST_PASSWORD=socpassword123
+
+# Critical alert email notifications (SMTP)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=vamshipdas@gmail.com
+SMTP_PASSWORD=<GMAIL_APP_PASSWORD>
+ALERT_EMAIL_FROM=vamshipdas@gmail.com
+ALERT_EMAIL_TO=dasvamshi8@gmail.com
+ALERT_EMAIL_ENABLED=true
+ALERT_MIN_SEVERITY=critical
+ALERT_COOLDOWN_SECONDS=300
+DASHBOARD_BASE_URL=http://localhost:5173
 ```
+
+> **Setting up Gmail SMTP App Password:**
+> 1. In your Google Account (`vamshipdas@gmail.com`), enable **2-Step Verification**.
+> 2. Go to **Security > App passwords** (or search "App passwords").
+> 3. Generate a password for "Mail" / "Windows Computer" (16 characters).
+> 4. Paste it into `backend/.env` under `SMTP_PASSWORD=...`.
+> 5. If `SMTP_PASSWORD` is omitted, email sending is safely disabled with a log warning and the app runs normally.
+
 
 #### Start the backend
 
