@@ -3,7 +3,7 @@ import { Activity, UploadCloud, Terminal, Shield } from 'lucide-react';
 import RealTimeLogs from './RealTimeLogs';
 import UploadLogs from './UploadLogs';
 
-export default function LogAnalysis({ onAskCyberLLM, onSelectAlert, focusedOrigin }) {
+export default function LogAnalysis({ onAskCyberLLM, onSelectAlert, focusedOrigin, showToast }) {
   const [activeTab, setActiveTab] = useState('realtime'); // 'realtime' | 'upload'
 
   return (
@@ -57,15 +57,18 @@ export default function LogAnalysis({ onAskCyberLLM, onSelectAlert, focusedOrigi
             onAskCyberLLM={onAskCyberLLM}
             onSelectAlert={onSelectAlert}
             focusedOrigin={focusedOrigin}
+            showToast={showToast}
           />
         ) : (
           <UploadLogs
             onAskCyberLLM={onAskCyberLLM}
             onSelectAlert={onSelectAlert}
             focusedOrigin={focusedOrigin}
+            showToast={showToast}
           />
         )}
       </div>
     </div>
   );
 }
+

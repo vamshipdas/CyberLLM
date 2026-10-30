@@ -25,7 +25,7 @@ import LogExplainerChat from './LogExplainerChat';
 
 const MAX_DOM_ROWS = 500;
 
-export default function RealTimeLogs({ onAskCyberLLM, onSelectAlert, focusedOrigin }) {
+export default function RealTimeLogs({ onAskCyberLLM, onSelectAlert, focusedOrigin, showToast }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [events, setEvents] = useState([]);
   const [findings, setFindings] = useState([]);
@@ -616,6 +616,7 @@ export default function RealTimeLogs({ onAskCyberLLM, onSelectAlert, focusedOrig
             onAskCyberLLM={onAskCyberLLM}
             onExplainFinding={handleExplainFinding}
             onSelectAlert={onSelectAlert}
+            showToast={showToast}
           />
         </div>
       </div>

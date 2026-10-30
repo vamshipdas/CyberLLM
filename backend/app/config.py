@@ -72,6 +72,17 @@ class Settings(BaseSettings):
     DEFAULT_HOME_LAT: float = 37.7749
     DEFAULT_HOME_LON: float = -122.4194
     DEFAULT_HOME_LABEL: str = "SOC Operations Center (Primary HQ)"
+    # --- Critical Alert Email Notifications (SMTP) ---------------------------
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USER: str = "vamshipdas@gmail.com"
+    SMTP_PASSWORD: str = ""
+    ALERT_EMAIL_FROM: str = "vamshipdas@gmail.com"
+    ALERT_EMAIL_TO: str = "dasvamshi8@gmail.com"
+    ALERT_EMAIL_ENABLED: bool = True
+    ALERT_MIN_SEVERITY: str = "critical"
+    ALERT_COOLDOWN_SECONDS: int = 300
+    DASHBOARD_BASE_URL: str = "http://localhost:5173"
 
     @cached_property
     def effective_secret_key(self) -> str:

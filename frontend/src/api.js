@@ -313,5 +313,38 @@ export function updateAlertStatus(alertType, alertId, status) {
   });
 }
 
+/* --- Critical Alert Notifications --- */
+export function getNotificationSettings() {
+  return request("/notifications/settings");
+}
+
+export function updateNotificationSettings(payload) {
+  return request("/notifications/settings", {
+    method: "PUT",
+    body: payload,
+  });
+}
+
+export function sendTestNotification() {
+  return request("/notifications/test", {
+    method: "POST",
+  });
+}
+
+export function getNotificationLogs(limit = 50) {
+  return request(`/notifications/log?limit=${limit}`);
+}
+
+export function getAlertNotificationStatus(alertId) {
+  return request(`/notifications/status/${encodeURIComponent(alertId)}`);
+}
+
+export function resendAlertNotification(alertId) {
+  return request(`/notifications/resend/${encodeURIComponent(alertId)}`, {
+    method: "POST",
+  });
+}
+
+
 
 

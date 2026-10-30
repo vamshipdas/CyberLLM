@@ -14,8 +14,10 @@ import {
   Sparkles
 } from 'lucide-react';
 import { createTicketFromFinding } from '../../api';
+import AlertEmailIndicator from '../AlertEmailIndicator';
 
-export default function FindingsPanel({ findings = [], onAskCyberLLM, onExplainFinding, onSelectAlert }) {
+export default function FindingsPanel({ findings = [], onAskCyberLLM, onExplainFinding, onSelectAlert, showToast }) {
+
   const [expandedEvidence, setExpandedEvidence] = useState({});
   const [expandedCitations, setExpandedCitations] = useState({});
   const [ticketStatuses, setTicketStatuses] = useState({});
@@ -110,6 +112,11 @@ export default function FindingsPanel({ findings = [], onAskCyberLLM, onExplainF
                   <span className={`badge ${getSeverityBadgeClass(fnd.severity)}`}>
                     {fnd.severity?.toUpperCase()}
                   </span>
+                  <AlertEmailIndicator
+                    alertId={fnd.id}
+                    severity={fnd.severity}
+                    showToast={showToast}
+                  />
                   {fnd.mitre_technique && (
                     <span className="badge badge-mitre">
                       <Tag size={10} style={{ marginRight: '4px' }} />

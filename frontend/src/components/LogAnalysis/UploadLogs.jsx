@@ -23,7 +23,7 @@ import SeverityBadge from './SeverityBadge';
 import SeverityLegend from './SeverityLegend';
 import LogExplainerChat from './LogExplainerChat';
 
-export default function UploadLogs({ onAskCyberLLM, onSelectAlert, focusedOrigin }) {
+export default function UploadLogs({ onAskCyberLLM, onSelectAlert, focusedOrigin, showToast }) {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -655,6 +655,7 @@ export default function UploadLogs({ onAskCyberLLM, onSelectAlert, focusedOrigin
                 onAskCyberLLM={onAskCyberLLM}
                 onExplainFinding={handleExplainFinding}
                 onSelectAlert={onSelectAlert}
+                showToast={showToast}
               />
             </div>
           </div>

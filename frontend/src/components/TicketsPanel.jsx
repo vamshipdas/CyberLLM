@@ -5,6 +5,8 @@ import {
 } from 'lucide-react';
 import { listTickets, updateTicketStatus } from '../api';
 import ThreatOriginGlobe from './ThreatMap/ThreatOriginGlobe';
+import AlertEmailIndicator from './AlertEmailIndicator';
+
 
 const ICON_MAP = {
   ransomware: <Flame size={14} color="#fb7185" />,
@@ -41,7 +43,7 @@ function ticketToPrompt(ticket) {
   ].join('\n');
 }
 
-export default function TicketsPanel({ onUseTicket, onSelectAlert }) {
+export default function TicketsPanel({ onUseTicket, onSelectAlert, showToast }) {
   const [tickets, setTickets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openActionsId, setOpenActionsId] = useState(null);
@@ -148,6 +150,11 @@ export default function TicketsPanel({ onUseTicket, onSelectAlert }) {
               </div>
 
               <div className="ticket-card__controls">
+                <AlertEmailIndicator
+                  alertId={ticket.id}
+                  severity={ticket.severity}
+                  showToast={showToast}
+                />
                 <span style={{ color: SEVERITY_COLOR[ticket.severity] || '#94a3b8' }}>
                   {ticket.severity}
                 </span>
